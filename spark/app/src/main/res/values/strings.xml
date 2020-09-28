@@ -1,3 +1,4 @@
 <resources>
 	<string name="app_name">spark</string>
+    <string name="expert_list">Expert List</string>
 </resources>
