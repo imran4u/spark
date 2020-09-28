@@ -13,10 +13,13 @@ import kotlinx.coroutines.withContext
 class ExpertViewModel(private val repository: ExpertRepository) : ViewModel() {
     val mErrorLiveData = MutableLiveData<String>()
     val mExpertListLiveData = MutableLiveData<List<Expert>>()
+    val mExpertList = ArrayList<Expert>()
 
     suspend fun getExpertList() = withContext(Dispatchers.Main) {
         try {
-            val experts = repository.getExpertList()
+            val experts = repository.getExpertList() ?: throw Exception("Fail to download data, list is empty")
+            mExpertList.clear()
+            mExpertList.addAll(experts)
             mExpertListLiveData.postValue(experts)
         } catch (e: Exception) {
             mErrorLiveData.value = e.message

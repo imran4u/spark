@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.imran.spark.R
 import com.imran.spark.databinding.ActivityExpertBinding
-import com.imran.spark.model.Expert
 import com.imran.spark.util.snackbar
 import com.imran.spark.view.adapter.ExpertAdapter
 import com.imran.spark.viewmodel.ExpertViewModel
@@ -24,7 +23,7 @@ class ExpertActivity : AppCompatActivity(), KodeinAware {
 
     private lateinit var mViewModel: ExpertViewModel
     private val mFactory: ExpertViewModelFactory by instance()
-    private val mExpertList = ArrayList<Expert>()
+
     private lateinit var mExpertAdapter: ExpertAdapter
     private lateinit var mBinding: ActivityExpertBinding
 
@@ -33,16 +32,17 @@ class ExpertActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_expert)
         mViewModel = ViewModelProvider(this, mFactory).get(ExpertViewModel::class.java)
-        mExpertAdapter = ExpertAdapter(mExpertList)
+        mExpertAdapter = ExpertAdapter(mViewModel.mExpertList)
 
         recyclerView.adapter = mExpertAdapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(
             2, // span count
             StaggeredGridLayoutManager.VERTICAL
         )
-
-        lifecycleScope.launch() {
-            mViewModel.getExpertList()
+        if (mViewModel.mExpertList.isEmpty()) {
+            lifecycleScope.launch() {
+                mViewModel.getExpertList()
+            }
         }
         initObserver()
 
@@ -51,8 +51,6 @@ class ExpertActivity : AppCompatActivity(), KodeinAware {
     private fun initObserver() {
         mViewModel.mExpertListLiveData.observe(this, Observer {
             if (it != null) {
-                mExpertList.clear();
-                mExpertList.addAll(it)
                 mExpertAdapter.notifyDataSetChanged()
             }
         })
