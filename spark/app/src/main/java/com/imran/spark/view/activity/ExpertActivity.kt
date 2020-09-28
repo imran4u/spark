@@ -1,14 +1,20 @@
 package com.imran.spark.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.imran.spark.R
+import com.imran.spark.databinding.ActivityExpertBinding
+import com.imran.spark.model.Expert
+import com.imran.spark.util.snackbar
+import com.imran.spark.view.adapter.ExpertAdapter
 import com.imran.spark.viewmodel.ExpertViewModel
 import com.imran.spark.viewmodel.factory.ExpertViewModelFactory
+import kotlinx.android.synthetic.main.activity_expert.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -18,20 +24,40 @@ class ExpertActivity : AppCompatActivity(), KodeinAware {
 
     private lateinit var mViewModel: ExpertViewModel
     private val mFactory: ExpertViewModelFactory by instance()
+    private val mExpertList = ArrayList<Expert>()
+    private lateinit var mExpertAdapter: ExpertAdapter
+    private lateinit var mBinding: ActivityExpertBinding
 
     override val kodein by kodein()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expert)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_expert)
         mViewModel = ViewModelProvider(this, mFactory).get(ExpertViewModel::class.java)
-        lifecycleScope.launch(){
+        mExpertAdapter = ExpertAdapter(mExpertList)
+
+        recyclerView.adapter = mExpertAdapter
+        recyclerView.layoutManager = StaggeredGridLayoutManager(
+            2, // span count
+            StaggeredGridLayoutManager.VERTICAL
+        )
+
+        lifecycleScope.launch() {
             mViewModel.getExpertList()
         }
+        initObserver()
 
+    }
+
+    private fun initObserver() {
         mViewModel.mExpertListLiveData.observe(this, Observer {
-            it?.forEach{ export->
-                Log.d("imran", export.description)
+            if (it != null) {
+                mExpertList.clear();
+                mExpertList.addAll(it)
+                mExpertAdapter.notifyDataSetChanged()
             }
+        })
+        mViewModel.mErrorLiveData.observe(this, Observer {
+            mBinding.root.snackbar(it)
         })
     }
 }

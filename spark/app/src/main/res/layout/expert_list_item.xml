@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ExpertListBinding">
+
+        <variable
+            name="mExpert"
+            type="com.imran.spark.model.Expert" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:clipChildren="false"
+        android:hardwareAccelerated="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        app:cardPreventCornerOverlap="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/thumbnailView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                app:CircularDrawable="@{mExpert.thumbnail}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{mExpert.expertInfo.name}"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/thumbnailView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Imran Ali" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/shortBio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{mExpert.expertInfo.shortBio}"
+                android:textColor="#696969"
+                android:textSize="13sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/thumbnailView"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="Developer with 15 years of experience in the field of math and science" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:Drawable="@{mExpert.expertInfo.profilePIc}"
+                android:layout_marginBottom="8dp"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/shortBio" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iconLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/icon_like"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/views"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="#696969"
+                android:textSize="13sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:setView="@{mExpert.actionAccount.view}"
+                tools:text="100 views" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iconLike"
+                app:setLike="@{mExpert.actionAccount.like }"
+                tools:text="100 likes" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{mExpert.description}"
+                android:textColor="#696969"
+                android:textSize="13sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/likes"
+                tools:text="You can fix your own life by it's simple way" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/publishAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{mExpert.publishedAt}"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/description"
+                tools:text="2 days ago" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

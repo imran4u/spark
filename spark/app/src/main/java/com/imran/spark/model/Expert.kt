@@ -12,7 +12,8 @@ data class Expert(
     val publishedAt: String,
     val thumbnail: String,
     val description: String,
-    val expert: ExpertInfo,
+    @SerializedName("expert")
+    val expertInfo: ExpertInfo,
     @SerializedName("action_counts")
     val actionAccount: AccountAction,
 )
